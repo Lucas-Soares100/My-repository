@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Nuts - Marketplace de Cereais</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div id="app">
+        <!-- NAVEGAÇÃO -->
+        <nav class="navbar">
+            <div class="navbar-container">
+                <div class="navbar-brand">
+                    <span class="logo">Mr. Nuts</span>
+                </div>
+                
+                <div class="nav-center" id="nav-center">
+                    <!-- Links dinâmicos baseado no estado -->
+                </div>
+
+                <div class="nav-right">
+                    <div class="search-box">
+                        <input type="text" id="search-input" placeholder="Buscar produtos, categorias ou fornecedores..." class="search-input">
+                        <button class="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <button id="switch-profile-btn" onclick="verificarTrocaPerfil()" style="display:none;">
+                        <i class="fas fa-store"></i> Virar Fornecedor
+                    </button>
+                    <button class="nav-icon" id="notifications-btn"><i class="fas fa-bell"></i></button>
+                    <button class="nav-icon" id="favorites-btn" onclick="app.goToFavorites()"><i class="fas fa-heart"></i></button>
+                    <div class="user-menu" id="user-menu">
+                        <button class="user-btn"><i class="fas fa-user-circle"></i></button>
+                        <div class="user-dropdown" id="user-dropdown">
+                            <!-- Preenchido dinamicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="main-content">
+            <!-- HOME PAGE -->
+            <section id="home-page" class="page">
+                <!-- Hero Banner -->
+                <div class="hero-banner">
+                    <div class="hero-content">
+                        <h1>Conectamos cerealistas a grandes oportunidades.</h1>
+                        <p>Compre no atacado com os melhores fornecedores do mercado.</p>
+                        <button class="btn-primary" onclick="app.navigateTo('products')">Ver produtos</button>
+                    </div>
+                    <div class="hero-image">
+                        <img src="https://via.placeholder.com/500x400?text=Cereais" alt="Cereais">
+                    </div>
+                </div>
+
+                <!-- CATEGORIAS -->
+                <section class="section-categories">
+                    <div class="section-header">
+                        <h2>Categorias</h2>
+                        <a href="#" class="link-all">Ver todos</a>
+                    </div>
+                    <div class="categories-grid" id="categories-container">
+                        <!-- Preenchido dinamicamente -->
+                    </div>
+                </section>
+
+                <!-- PRODUTOS EM DESTAQUE -->
+                <section class="section-products">
+                    <div class="section-header">
+                        <h2>Produtos em destaque</h2>
+                        <a href="#" class="link-all" onclick="app.navigateTo('products'); return false;">Ver todos</a>
+                    </div>
+                    <div class="products-grid" id="featured-products">
+                        <!-- Preenchido dinamicamente -->
+                    </div>
+                </section>
+
+                <!-- FORNECEDORES EM DESTAQUE -->
+                <section class="section-suppliers">
+                    <div class="section-header">
+                        <h2>Fornecedores em destaque</h2>
+                        <a href="#" class="link-all" onclick="app.navigateTo('suppliers'); return false;">Ver todos</a>
+                    </div>
+                    <div class="suppliers-grid" id="featured-suppliers">
+                        <!-- Preenchido dinamicamente -->
+                    </div>
+                </section>
+
+                <!-- BENEFÍCIOS -->
+                <section class="section-benefits">
+                    <div class="benefit-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Compra 100% segura</h3>
+                        <p>Ambiente protegido</p>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-star"></i>
+                        <h3>Preços especiais atacado</h3>
+                        <p>Melhores condições</p>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-headset"></i>
+                        <h3>Apoio ao cliente</h3>
+                        <p>Atendimento humanizado</p>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-truck"></i>
+                        <h3>Entregas para todo o Brasil</h3>
+                        <p>Logística eficiente</p>
+                    </div>
+                </section>
+            </section>
+
+            <!-- PRODUTOS PAGE -->
+            <section id="products-page" class="page hidden">
+                <div class="page-header">
+                    <h1>Produtos</h1>
+                    <div class="filters">
+                        <select id="category-filter" class="filter-select">
+                            <option value="">Todas as categorias</option>
+                            <option value="nozes">Nozes</option>
+                            <option value="castanhas">Castanhas</option>
+                            <option value="grãos">Grãos</option>
+                            <option value="sementes">Sementes</option>
+                            <option value="farináceos">Farináceos</option>
+                            <option value="chips">Chips</option>
+                            <option value="temperos">Temperos</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="products-grid" id="all-products">
+                    <!-- Preenchido dinamicamente -->
+                </div>
+            </section>
+
+            <!-- PRODUTO DETALHES PAGE -->
+            <section id="product-details-page" class="page hidden">
+                <div class="product-details-container" id="product-details-content">
+                    <!-- Preenchido dinamicamente -->
+                </div>
+            </section>
+
+            <!-- FORNECEDOR PERFIL PAGE -->
+            <section id="supplier-profile-page" class="page hidden">
+                <div class="supplier-profile-container" id="supplier-profile-content">
+                    <!-- Preenchido dinamicamente -->
+                </div>
+            </section>
+
+            <!-- AUTH PAGE (LOGIN/REGISTER) -->
+            <section id="auth-page" class="page hidden">
+                <div class="auth-container">
+                    <div class="auth-card" id="auth-card">
+                        <!-- Preenchido dinamicamente -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- DASHBOARD FORNECEDOR -->
+            <section id="supplier-dashboard-page" class="page hidden">
+                <div class="dashboard-container">
+                    <aside class="sidebar" id="sidebar-supplier">
+                        <nav class="sidebar-nav">
+                            <a href="#" class="nav-item active" onclick="app.showSupplierSection('products'); return false;">
+                                <i class="fas fa-box"></i> Meus Produtos
+                            </a>
+                            <a href="#" class="nav-item" onclick="app.showSupplierSection('profile'); return false;">
+                                <i class="fas fa-user"></i> Meu Perfil
+                            </a>
+                            <a href="#" class="nav-item" onclick="app.showSupplierSection('analytics'); return false;">
+                                <i class="fas fa-chart-line"></i> Analytics
+                            </a>
+                            <a href="#" class="nav-item" onclick="app.logout(); return false;">
+                                <i class="fas fa-sign-out-alt"></i> Sair
+                            </a>
+                        </nav>
+                    </aside>
+
+                    <div class="dashboard-content">
+                        <!-- Seção de Produtos -->
+                        <div id="supplier-products-section" class="dashboard-section">
+                            <div class="section-header">
+                                <h2>Meus Produtos</h2>
+                                <button class="btn-primary" onclick="app.openProductModal('create')">
+                                    <i class="fas fa-plus"></i> Novo Produto
+                                </button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="products-table" id="supplier-products-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Imagem</th>
+                                            <th>Título</th>
+                                            <th>Categoria</th>
+                                            <th>Preço</th>
+                                            <th>Link</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="supplier-products-tbody">
+                                        <!-- Preenchido dinamicamente -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Seção de Perfil -->
+                        <div id="supplier-profile-section" class="dashboard-section hidden">
+                            <h2>Meu Perfil</h2>
+                            <form class="profile-form" id="supplier-profile-form" onsubmit="app.updateSupplierProfile(event)">
+                                <div class="form-group">
+                                    <label>Nome da Empresa</label>
+                                    <input type="text" id="supplier-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" id="supplier-email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>CNPJ</label>
+                                    <input type="text" id="supplier-cnpj" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Logo</label>
+                                    <input type="file" id="supplier-logo" accept="image/*">
+                                </div>
+                                <button type="submit" class="btn-primary">Salvar Alterações</button>
+                            </form>
+                        </div>
+                        <!-- Seção Analytics -->
+                        <div id="supplier-analytics-section" class="dashboard-section hidden">
+                            <h2>Analytics</h2>
+                            <div class="analytics-card">
+                                <h3>Crescimento de Seguidores <span id="fornecedor-seguidores" style="font-size:14px;color:#2f6b45;font-weight:normal;">(carregando...)</span></h3>
+                                <canvas id="followers-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DASHBOARD CLIENTE -->
+            <section id="client-dashboard-page" class="page hidden">
+                <div class="dashboard-container">
+                    <aside class="sidebar" id="sidebar-client">
+                        <nav class="sidebar-nav">
+                            <a href="#" class="nav-item active" onclick="app.showClientSection('profile'); return false;">
+                                <i class="fas fa-user"></i> Meu Perfil
+                            </a>
+                            <a href="#" class="nav-item" onclick="app.showClientSection('favorites'); return false;">
+                                <i class="fas fa-heart"></i> Favoritos
+                            </a>
+                            <a href="#" class="nav-item" onclick="app.showClientSection('seguindo'); return false;">
+                                <i class="fas fa-user-check"></i> Seguindo
+                            </a>
+                            <a href="#" class="nav-item" onclick="app.logout(); return false;">
+                                <i class="fas fa-sign-out-alt"></i> Sair
+                            </a>
+                        </nav>
+                    </aside>
+
+                    <div class="dashboard-content">
+                        <!-- Seção de Perfil -->
+                        <div id="client-profile-section" class="dashboard-section">
+                            <h2>Meu Perfil</h2>
+                            <form class="profile-form" id="client-profile-form" onsubmit="app.updateClientProfile(event)">
+                                <div class="form-group">
+                                    <label>Nome</label>
+                                    <input type="text" id="client-name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="email" id="client-email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Telefone</label>
+                                    <input type="tel" id="client-phone" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Foto</label>
+                                    <input type="file" id="client-photo" accept="image/*">
+                                </div>
+                                <div class="form-group">
+                                    <label>Senha Atual</label>
+                                    <input type="password" id="client-current-password" placeholder="Deixe em branco para não alterar">
+                                </div>
+                                <div class="form-group">
+                                    <label>Nova Senha</label>
+                                    <input type="password" id="client-new-password" placeholder="Deixe em branco para não alterar">
+                                </div>
+                                <button type="submit" class="btn-primary">Salvar Alterações</button>
+                            </form>
+                        </div>
+
+                        <!-- Seção de Favoritos -->
+                        <div id="client-favorites-section" class="dashboard-section hidden">
+                            <h2>Meus Favoritos</h2>
+                            <div class="products-grid" id="client-favorites">
+                                <!-- Preenchido dinamicamente -->
+                            </div>
+                        </div>
+
+                        <!-- Seção Seguindo -->
+                        <div id="client-seguindo-section" class="dashboard-section hidden">
+                            <h2>Fornecedores que sigo</h2>
+                            <div id="seguindo-list"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- RODAPÉ -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Mr. Nuts</h4>
+                    <p>Marketplace B2B para cerealistas e revendedores. Conectamos você aos melhores fornecedores nacionais.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Institucional</h4>
+                    <ul>
+                        <li><a href="#">Sobre nós</a></li>
+                        <li><a href="#">Demo funcional</a></li>
+                        <li><a href="#">Seja fornecedor</a></li>
+                        <li><a href="#">Termos de uso</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Ajuda</h4>
+                    <ul>
+                        <li><a href="#">Central de ajuda</a></li>
+                        <li><a href="#">Dúvidas frequentes</a></li>
+                        <li><a href="#">Fale conosco</a></li>
+                        <li><a href="#">Pagamento e envio</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Formas de pagamento</h4>
+                    <div class="payment-methods">
+                        <span class="payment-icon"><i class="fab fa-cc-visa"></i></span>
+                        <span class="payment-icon"><i class="fab fa-cc-mastercard"></i></span>
+                        <span class="payment-icon"><i class="fab fa-cc-amazon-pay"></i></span>
+                        <span class="payment-icon"><i class="fab fa-cc-paypal"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Mr. Nuts - Todos os direitos reservados.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- MODAIS -->
+    <!-- Modal de Produto (CRUD) -->
+    <div class="modal" id="product-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="product-modal-title">Novo Produto</h2>
+                <button class="modal-close" onclick="app.closeModal('product-modal')"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="product-form" class="form-group-container" onsubmit="app.saveProduct(event)">
+                <div class="form-group">
+                    <label>Título</label>
+                    <input type="text" id="product-titulo" required>
+                </div>
+                <div class="form-group">
+                    <label>Link do Produto (URL do site do fornecedor)</label>
+                    <input type="url" id="product-link" placeholder="https://exemplo.com/produto" required>
+                </div>
+                <div class="form-group">
+                    <label>Categoria</label>
+                    <select id="product-categoria" required>
+                        <option value="">Selecione uma categoria</option>
+                        <option value="nozes">Nozes</option>
+                        <option value="castanhas">Castanhas</option>
+                        <option value="grãos">Grãos</option>
+                        <option value="sementes">Sementes</option>
+                        <option value="farináceos">Farináceos</option>
+                        <option value="chips">Chips</option>
+                        <option value="temperos">Temperos</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Descrição</label>
+                    <textarea id="product-descricao" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Preço (R$) <span style="color:#888;font-weight:400;font-size:0.85em">— opcional</span></label>
+                    <input type="number" id="product-preco" min="0" step="0.01" placeholder="Ex: 29.90">
+                </div>
+                <div class="form-group">
+                    <label>Imagens (1 a 5 imagens - A primeira será a capa)</label>
+                    <input type="file" id="product-images" accept="image/*" multiple required>
+                    <small style="color: #666; display: block; margin-top: 0.5rem;">Máximo 5 imagens. A primeira imagem será usada como capa do produto.</small>
+                    <div id="product-images-preview" style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <!-- Pré-visualização de imagens -->
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="app.closeModal('product-modal')">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação de Exclusão -->
+    <div class="modal" id="confirm-modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2>Confirmar exclusão</h2>
+            </div>
+            <p id="confirm-message">Tem certeza que deseja excluir este item?</p>
+            <div class="modal-actions">
+                <button class="btn-secondary" onclick="app.closeModal('confirm-modal')">Cancelar</button>
+                <button class="btn-danger" id="confirm-delete-btn">Deletar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scripts -->
+
+        <!-- MODAL TROCA DE PERFIL -->
+        <div id="troca-perfil-modal" class="tp-modal-overlay hidden" onclick="if(event.target===this)fecharModalTroca()">
+            <div class="tp-modal">
+                <div class="tp-modal-header">
+                    <h2 id="tp-modal-titulo">Criar Perfil</h2>
+                    <button class="tp-modal-close" onclick="fecharModalTroca()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="tp-modal-body">
+                    <p class="tp-modal-desc">Complete os dados abaixo para criar seu novo perfil vinculado.</p>
+                    <div class="form-group">
+                        <label>Nome</label>
+                        <input type="text" id="tp-nome" placeholder="Seu nome">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="tp-email" placeholder="Seu email" readonly>
+                    </div>
+                    <div id="tp-campos-extras"></div>
+                </div>
+                <div class="tp-modal-footer">
+                    <button class="tp-btn-cancelar" onclick="fecharModalTroca()">Cancelar</button>
+                    <button class="tp-btn-criar" onclick="criarPerfilVinculado()">
+                        <i class="fas fa-user-plus"></i> Criar Perfil
+                    </button>
+                </div>
+            </div>
+        </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/passwordVisibility.js"></script>
+    <script src="js/avaliacoesProduto.js"></script>
+    <script src="js/seguidores.js"></script>
+    <script src="js/trocaPerfil.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

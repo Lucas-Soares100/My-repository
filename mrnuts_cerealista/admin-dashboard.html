@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel Administrativo - Mr Nuts Cerealista</title>
+  <link rel="stylesheet" href="admin-styles.css">
+</head>
+<body class="admin-dashboard-body">
+  <div class="admin-dashboard-container">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <div class="admin-sidebar-icon">MN</div>
+        <div class="admin-sidebar-title">
+          <h2>Mr Nuts</h2>
+          <p>Administração</p>
+        </div>
+      </div>
+
+      <ul class="admin-sidebar-menu">
+        <li class="admin-sidebar-item"><a href="#" class="admin-sidebar-link active" data-tab="clientes">👥 Clientes</a></li>
+        <li class="admin-sidebar-item"><a href="#" class="admin-sidebar-link" data-tab="fornecedores">🏢 Fornecedores</a></li>
+        <li class="admin-sidebar-item"><a href="#" class="admin-sidebar-link" data-tab="produtos">📦 Produtos</a></li>
+        <li class="admin-sidebar-item"><a href="#" class="admin-sidebar-link" data-tab="avaliacoes">⭐ Avaliações</a></li>
+      </ul>
+
+      <div class="admin-sidebar-logout">
+        <button id="logoutBtn">Sair</button>
+      </div>
+    </aside>
+
+    <main class="admin-main-content">
+      <header class="admin-header">
+        <h1>Painel Administrativo</h1>
+        <div class="admin-header-profile">
+          <div class="admin-header-user">
+            <div class="name" id="adminName">Admin</div>
+            <div class="role">Administrador</div>
+          </div>
+          <div class="admin-header-avatar" id="adminAvatar">A</div>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <div id="clientes" class="admin-tab-content active">
+          <div class="admin-table-wrapper">
+            <div class="admin-table-toolbar">
+              <h2 style="margin: 0; color: var(--text-dark);">Clientes Cadastrados</h2>
+              <button class="btn-primary btn-admin-new" id="newClienteBtn">+ Novo Cliente</button>
+              <div class="admin-search">
+                <input type="text" id="searchClientes" placeholder="Buscar cliente por nome ou email...">
+              </div>
+            </div>
+            <div id="clientesTableContainer">
+              <table id="clientesTable">
+                <thead>
+                  <tr><th>ID</th><th>Nome</th><th>Email</th><th>Telefone</th><th>Data de Cadastro</th><th>Ações</th></tr>
+                </thead>
+                <tbody id="clientesTableBody"><tr><td colspan="6" style="text-align: center; padding: 40px;">Carregando...</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="fornecedores" class="admin-tab-content">
+          <div class="admin-table-wrapper">
+            <div class="admin-table-toolbar">
+              <h2 style="margin: 0; color: var(--text-dark);">Fornecedores Cadastrados</h2>
+              <button class="btn-primary btn-admin-new" id="newFornecedorBtn">+ Novo Fornecedor</button>
+              <div class="admin-search">
+                <input type="text" id="searchFornecedores" placeholder="Buscar fornecedor por nome ou CNPJ...">
+              </div>
+            </div>
+            <div id="fornecedoresTableContainer">
+              <table id="fornecedoresTable">
+                <thead>
+                  <tr><th>ID</th><th>Nome</th><th>CNPJ</th><th>Email</th><th>Data de Cadastro</th><th>Ações</th></tr>
+                </thead>
+                <tbody id="fornecedoresTableBody"><tr><td colspan="6" style="text-align: center; padding: 40px;">Carregando...</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="produtos" class="admin-tab-content">
+          <div class="admin-table-wrapper">
+            <div class="admin-table-toolbar">
+              <h2 style="margin: 0; color: var(--text-dark);">Produtos</h2>
+              <button class="btn-primary btn-admin-new" id="newProdutoBtn">+ Novo Produto</button>
+              <div class="admin-search">
+                <input type="text" id="searchProdutos" placeholder="Buscar produto por título ou categoria...">
+              </div>
+            </div>
+            <div id="produtosTableContainer">
+              <table id="produtosTable">
+                <thead>
+                  <tr><th>ID</th><th>Título</th><th>Categoria</th><th>Preço</th><th>Fornecedor</th><th>Data de Cadastro</th><th>Ações</th></tr>
+                </thead>
+                <tbody id="produtosTableBody"><tr><td colspan="7" style="text-align: center; padding: 40px;">Carregando...</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div id="avaliacoes" class="admin-tab-content">
+          <div class="admin-table-wrapper">
+            <div class="admin-table-toolbar">
+              <h2 style="margin: 0; color: var(--text-dark);">Avaliações</h2>
+              <div class="admin-search">
+                <input type="text" id="searchAvaliacoes" placeholder="Buscar avaliação por produto ou cliente...">
+              </div>
+            </div>
+            <div id="avaliacoesTableContainer">
+              <table id="avaliacoesTable">
+                <thead>
+                  <tr><th>ID</th><th>Produto</th><th>Cliente</th><th>Nota</th><th>Comentário</th><th>Data</th><th>Ações</th></tr>
+                </thead>
+                <tbody id="avaliacoesTableBody"><tr><td colspan="7" style="text-align: center; padding: 40px;">Carregando...</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="editModal" class="admin-modal">
+    <div class="admin-modal-content">
+      <div class="admin-modal-header">
+        <h2 id="modalTitle">Editar</h2>
+        <button class="admin-modal-close" id="closeModalBtn">×</button>
+      </div>
+      <form id="editForm" class="admin-modal-form"></form>
+      <div class="admin-modal-buttons">
+        <button type="button" class="btn-cancel" id="cancelEditBtn">Cancelar</button>
+        <button type="button" class="btn-save" id="saveEditBtn">Salvar</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="deleteModal" class="admin-modal">
+    <div class="admin-modal-content" style="max-width: 400px;">
+      <div class="admin-modal-header">
+        <h2>Confirmar Exclusão</h2>
+        <button class="admin-modal-close" id="closeDeleteModalBtn">×</button>
+      </div>
+      <p id="deleteMessage" style="color: var(--text-light); margin: 20px 0;">
+        Tem certeza que deseja excluir este item? Esta ação não pode ser desfeita.
+      </p>
+      <div class="admin-modal-buttons">
+        <button type="button" class="btn-cancel" id="cancelDeleteBtn">Cancelar</button>
+        <button type="button" class="btn-delete" id="confirmDeleteBtn">Excluir</button>
+      </div>
+    </div>
+  </div>
+  <script src="js/passwordVisibility.js"></script>
+  <script src="admin-dashboard.js"></script>
+</body>
+</html>

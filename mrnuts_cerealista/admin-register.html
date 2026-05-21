@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Administrador | Mr Nuts Cerealista</title>
+    <link rel="stylesheet" href="admin-styles.css">
+</head>
+
+<body class="admin-auth-body">
+    <div class="admin-container">
+        <div class="admin-auth-card">
+            <div class="admin-auth-header">
+                <h1>Mr Nuts Cerealista</h1>
+                <p class="admin-badge">Painel Administrativo</p>
+            </div>
+
+            <form id="registerForm" class="admin-form">
+                <h2>Criar Conta de Administrador</h2>
+
+                <div class="form-group">
+                    <label for="name">Nome Completo</label>
+                    <input 
+                        type="text" 
+                        id="name" 
+                        name="name" 
+                        required 
+                        placeholder="Seu nome"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required 
+                        placeholder="email corporativo"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="telefone">Telefone</label>
+                    <input 
+                        type="tel" 
+                        id="telefone" 
+                        name="telefone" 
+                        required 
+                        placeholder="(00) 9 0000-0000"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        required 
+                        placeholder="••••••••"
+                        minlength="6"
+                    >
+                    <small>Mínimo 6 caracteres</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="passwordConfirm">Confirmar Senha</label>
+                    <input 
+                        type="password" 
+                        id="passwordConfirm" 
+                        name="passwordConfirm" 
+                        required 
+                        placeholder="••••••••"
+                        minlength="6"
+                    >
+                </div>
+
+                <button type="submit" class="btn-primary">Registrar</button>
+            </form>
+
+            <div class="admin-auth-footer">
+                <p>Já tem uma conta? <a href="admin-login.html">Faça login aqui</a></p>
+            </div>
+
+            <div id="messageContainer" class="message-container"></div>
+        </div>
+
+        <div class="admin-auth-decoration">
+            <div class="decoration-item"></div>
+            <div class="decoration-item"></div>
+            <div class="decoration-item"></div>
+        </div>
+    </div>
+
+    <script>
+        const apiUrl = 'http://localhost:3000/api'; // Alterar conforme necessário
+
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const telefone = document.getElementById('telefone').value;
+            const password = document.getElementById('password').value;
+            const passwordConfirm = document.getElementById('passwordConfirm').value;
+            const messageContainer = document.getElementById('messageContainer');
+
+            if (password !== passwordConfirm) {
+                messageContainer.innerHTML = '<div class="alert alert-error">As senhas não correspondem!</div>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${apiUrl}/auth/register/adm`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, telefone, password, passwordConfirm })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    messageContainer.innerHTML = '<div class="alert alert-success">Registro realizado com sucesso! Redirecionando para login...</div>';
+                    
+                    setTimeout(() => {
+                        window.location.href = 'admin-login.html';
+                    }, 2000);
+                } else {
+                    messageContainer.innerHTML = '<div class="alert alert-error">Não foi possível concluir o cadastro.</div>';
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                messageContainer.innerHTML = '<div class="alert alert-error">Erro ao conectar com o servidor</div>';
+            }
+        });
+    </script>
+    <script src="js/passwordVisibility.js"></script>
+</body>
+
+</html>

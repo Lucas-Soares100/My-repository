@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Administrador | Mr Nuts Cerealista</title>
+    <link rel="stylesheet" href="admin-styles.css">
+</head>
+
+<body class="admin-auth-body">
+    <div class="admin-container">
+        <div class="admin-auth-card">
+            <div class="admin-auth-header">
+                <h1>Mr Nuts Cerealista</h1>
+                <p class="admin-badge">Painel Administrativo</p>
+            </div>
+
+            <form id="loginForm" class="admin-form">
+                <h2>Entrar como Administrador</h2>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required 
+                        placeholder="seu.email@admin.com"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        name="password" 
+                        required 
+                        placeholder="••••••••"
+                    >
+                </div>
+
+                <button type="submit" class="btn-primary">Entrar</button>
+            </form>
+
+            <div class="admin-auth-footer">
+                <p>Não tem uma conta? <a href="admin-register.html">Registre-se aqui</a></p>
+                <p><a href="forgot-password.html">Esqueceu a senha?</a></p>
+            </div>
+
+            <div id="messageContainer" class="message-container"></div>
+        </div>
+
+        <div class="admin-auth-decoration">
+            <div class="decoration-item"></div>
+            <div class="decoration-item"></div>
+            <div class="decoration-item"></div>
+        </div>
+    </div>
+
+    <script>
+        const apiUrl = 'http://localhost:3000/api'; // Alterar conforme necessário
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const messageContainer = document.getElementById('messageContainer');
+
+            try {
+                const response = await fetch(`${apiUrl}/auth/login/adm`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Armazenar token no localStorage
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('adminUser', JSON.stringify(data.adm));
+
+                    // Mostrar mensagem de sucesso
+                    messageContainer.innerHTML = '<div class="alert alert-success">Login realizado com sucesso! Redirecionando...</div>';
+                    
+                    // Redirecionar para o dashboard após 1.5 segundos
+                    setTimeout(() => {
+                        window.location.href = 'admin-dashboard.html';
+                    }, 1500);
+                } else {
+                    messageContainer.innerHTML = `<div class="alert alert-error">${data.error || 'Erro ao fazer login'}</div>`;
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                messageContainer.innerHTML = '<div class="alert alert-error">Erro ao conectar com o servidor</div>';
+            }
+        });
+    </script>
+    <script src="js/passwordVisibility.js"></script>
+</body>
+
+</html>
