@@ -3,8 +3,8 @@ import app from './app.js'
 
 const port = process.env.PORT || 3000
 
-app.listen(port, ()=>{
-    console.log(`Servidor On em http://localhost:${port}`)
+app.listen(port, '0.0.0.0', () => {
+  console.log(`Servidor ON na porta ${port}`)
 })
 
 export default port
