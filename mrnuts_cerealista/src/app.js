@@ -21,6 +21,11 @@ app.use((req, res, next) => {
 })
 
 app.use(express.json())
+
+app.get('/health', (req, res) => {
+  res.json({ ok: true, message: 'Servidor online' })
+})
+
 app.use('/api', routes)
 app.use(express.static(path.join(__dirname, '..')))
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
