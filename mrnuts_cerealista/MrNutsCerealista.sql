@@ -1,6 +1,3 @@
-create database MrNutsCerealista;
-use MrNutsCerealista;
-
 create table adm(
 	ra int primary key auto_increment,
 	name varchar(255) not null unique,
