@@ -8,7 +8,8 @@ export const config = {
 
 const config = {
     // URL da API Backend
-    API_BASE_URL: 'http://localhost:3000/api',
+    
+API_BASE_URL: '/api',
     
     // Categorias de Produtos
     CATEGORIES: [
